@@ -1,0 +1,18 @@
+extends layout
+
+block content
+
+  //- summoner search introduction
+  div(class="container p-2")
+    div(class="row")
+      div(class="col")
+        h3(class="text-center") You want to find out if your friends are still alive? Go check on them and find out when they played their last game of League/TFT. Because we all know, that even if someone disappears from all social media, their League addiction won't cease!
+
+  //- Summoner search form
+  div(class="container p-3")
+    form(class="form-row justify-content-center", id="summonerSearchForm", action="", method="POST")
+      div(class="col-auto")
+        input(type="text", name="summoner", class="form-control", id="summonerSearch", placeholder="Summoner ID")
+        small(id="summonerSearchHelp", class="form-text text-muted") Currently only supporting EUW.
+      div(class="col-auto")
+        button(type="submit", class="btn btn-primary btnMainColor", id="summonerSearchSubmit") Submit

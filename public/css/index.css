@@ -1,0 +1,63 @@
+/*
+** Color Scheme
+** https://coolors.co/f5e6e8-d5c6e0-aaa1c8-967aa1-192a51
+*/
+
+html * {
+  font-family: 'Josefin Sans', sans-serif !important;
+}
+
+#summonerSearchForm {
+  border: #967aa1;
+}
+
+#profileIcon {
+  width: 100px;
+  height: 100px;
+}
+
+.btnMainColor {
+  background-color: #aaa1c8;
+  border-color: #aaa1c8;
+}
+
+.btnMainColor:hover,
+.btnMainColor:active,
+.btnMainColor:not(:disabled):not(.disabled):active,
+.btn-outline-primary:not(:disabled):not(.disabled):active:focus,
+.btnMainColor:focus {
+  background-color: #aaa1c8;
+  border-color: #aaa1c8;
+  box-shadow: 0 0 0 0.2rem rgba(25, 42, 81, 0.25);
+}
+
+.form-control:focus {
+  border-color: #967aa1;
+  box-shadow: 0 0 0 0.2rem rgba(25, 42, 81, 0.25);
+} 
+
+/*
+** Github Corner-Banner
+** MIT License
+*/
+.github-corner {
+  fill: url(#fiveColorGradient);
+  color: #fff;
+  position: absolute;
+  top: 0;
+  border: 0;
+  right: 0;
+}
+
+.github-corner:hover {
+  color: #fff;
+}
+.github-corner:hover .octo-arm {
+  animation:octocat-wave 560ms ease-in-out;
+}
+
+@keyframes octocat-wave {
+  0%,100% {transform:rotate(0)}
+  20%,60%{transform:rotate(-25deg)}
+  40%,80%{transform:rotate(10deg)}
+}

@@ -1,0 +1,10 @@
+extends layout
+
+block content
+
+  //- summoner search result introduction
+  div(class="container p-2")
+    div(class="row")
+      .col.text-center
+        img#profileIcon(src="http://ddragon.leagueoflegends.com/cdn/9.22.1/img/profileicon/" + profileIconId + ".png", alt="Profile icon")
+        h2.p-3= summoner + ' - Level ' + summonerLevel
