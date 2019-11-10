@@ -7,6 +7,7 @@ const router = express.Router();
 router.get('/', searchController.searchGet);
 
 /* POST Search page */
+/* Escape user input? */
 router.post('/', searchController.searchPost);
 
 module.exports = router;
