@@ -6,5 +6,30 @@ block content
   div(class="container p-2")
     div(class="row")
       .col.text-center
-        img#profileIcon(src="http://ddragon.leagueoflegends.com/cdn/9.22.1/img/profileicon/" + result.profileIconId + ".png", alt="Profile icon")
-        h2.p-3= result.name + ' - Level ' + result.summonerLevel
+        img#profileIcon(src="http://ddragon.leagueoflegends.com/cdn/9.22.1/img/profileicon/" + summonerResponse.profileIconId + ".png", alt="Profile icon")
+        h2.p-3= summonerResponse.name + ' - Level ' + summonerResponse.summonerLevel
+  
+  .container.p-2
+    table.table
+      thead
+        tr
+          th(scope="col") Mode
+          th(scope="col") Champion
+          th(scope="col") Role
+          th(scope="col") Lane
+          th(scope="col") Date
+      each match in matchlistResponse.matches
+        +matchlistTableRow(match.queue, match.champion, match.role, match.lane, match.timestamp)
+
+
+mixin matchlistTableRow(mode, champion, role, lane, timestamp)
+  tbody
+    tr
+      th(scope="col")= idModeMapping[mode]
+      th= idNameMapping[champion]
+      if role === 'DUO_SUPPORT'
+        th.cap SUPPORT
+      else
+        th.cap= role
+      th.cap= lane
+      th= new Date(timestamp).toUTCString()

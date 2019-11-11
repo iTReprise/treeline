@@ -1,6 +1,6 @@
 const rp = require('request-promise');
 
-const headers = { 'X-Riot-Token': 'RGAPI-1ea0da2b-4e7e-433c-8a95-5888f961b0d9' };
+const headers = { 'X-Riot-Token': 'RGAPI-91d3dd51-d25d-44c9-a894-a8c542918d94' };
 
 /* Summoner API */
 
@@ -52,7 +52,7 @@ exports.getSummonerByAccount = async (account) => {
     .catch((err) => { throw new Error(`Error in API call: ${err}`); });
 };
 
-/* Match API - todo: tournament routes */
+/* Match API - todo: tournament routes? */
 
 exports.getMatch = async (matchId) => {
   const options = {
@@ -89,4 +89,61 @@ exports.getMatchTimeline = async (matchId) => {
   return rp(options)
     .then((result) => result)
     .catch((err) => { throw new Error(`Error in API call: ${err}`); });
+};
+
+exports.getChampionData = async (championId) => {
+  const options = {
+    uri: 'http://ddragon.leagueoflegends.com/cdn/9.22.1/data/en_US/champion.json',
+    headers,
+    json: true,
+  };
+
+  return rp(options)
+    .then((result) => Object.values(result.data).find((ele) => ele.key === championId.toString()))
+    .catch((err) => { throw new Error(`Error in API call: ${err}`); });
+};
+
+exports.getChampions = async (championIds) => {
+  const options = {
+    uri: 'http://ddragon.leagueoflegends.com/cdn/9.22.1/data/en_US/champion.json',
+    headers,
+    json: true,
+  };
+
+  const champions = await rp(options).catch((err) => { throw new Error(`Error in API call: ${err}`); });
+  return Object.values(champions.data).filter((ele) => parseInt(ele.key, 10) in championIds);
+};
+
+exports.idChampionNameMapping = async () => {
+  const options = {
+    uri: 'http://ddragon.leagueoflegends.com/cdn/9.22.1/data/en_US/champion.json',
+    headers,
+    json: true,
+  };
+
+  const champions = await rp(options).catch((err) => { throw new Error(`Error in API call: ${err}`); });
+  const idNamesMapping = {};
+  Object.values(champions.data).forEach((ele) => {
+    idNamesMapping[ele.key] = ele.name;
+  });
+
+  return idNamesMapping;
+};
+
+exports.idGameModeMapping = async () => {
+  const options = {
+    uri: 'http://static.developer.riotgames.com/docs/lol/queues.json',
+    headers,
+    json: true,
+  };
+
+  const queues = await rp(options).catch((err) => { throw new Error(`Error in API call: ${err}`); });
+  const idModeMapping = {};
+  queues.forEach((ele) => {
+    if (ele.queueId !== 0) {
+      idModeMapping[ele.queueId] = ele.description.replace(/( games)/, '');
+    }
+  });
+
+  return idModeMapping;
 };
