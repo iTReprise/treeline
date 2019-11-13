@@ -2,12 +2,17 @@ extends layout
 
 block content
 
+  - const cap = (s) => s.toLowerCase().split(/( |_)/g).map((w) => `${w.substring(0, 1).toUpperCase()}${w.substring(1)}`).join('');
+
   //- summoner search result introduction
   div(class="container p-2")
-    div(class="row")
-      .col.text-center
+    .row.text-center
+      .col
         img#profileIcon(src="http://ddragon.leagueoflegends.com/cdn/9.22.1/img/profileicon/" + summonerResponse.profileIconId + ".png", alt="Profile icon")
-        h2.p-3= summonerResponse.name + ' - Level ' + summonerResponse.summonerLevel
+      each league in leagueResponse
+        +rankedInfos(league)
+    .row.text-center
+      h2.p-3= summonerResponse.name + ' - Level ' + summonerResponse.summonerLevel
   
   .container.p-2
     table.table
@@ -27,9 +32,14 @@ mixin matchlistTableRow(mode, champion, role, lane, timestamp)
     tr
       th(scope="col")= idModeMapping[mode]
       th= idNameMapping[champion]
-      if role === 'DUO_SUPPORT'
-        th.cap SUPPORT
-      else
-        th.cap= role
-      th.cap= lane
+      th.cap= role.toLowerCase().replace(/_/g, ' ').replace(/\b[a-z]\B/g, (v) => v.toUpperCase())
+      th.cap= lane.toLowerCase()
       th= new Date(timestamp).toUTCString()
+
+mixin rankedInfos(league)
+  .col
+    .row
+      p= league.queueType.replace(/_/g, ' ').toLowerCase().replace(/(\b(?!(\b[a-z]{3}\B))[a-z]{2,3})|(\b[a-z]\B)/g, (v) => v.toUpperCase())
+    .row
+      p.cap= league.tier.toLowerCase() + ' ' + league.rank
+

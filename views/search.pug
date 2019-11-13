@@ -10,11 +10,11 @@ block content
 
   //- Summoner search form
   div(class="container p-3")
-    form(class="form-row justify-content-center", id="summonerSearchForm", action="", method="POST")
+    form(class="form-row justify-content-center", id="summonerSearchForm", action="/search", method="POST")
       div(class="col-auto")
         input(type="text", name="summoner", class="form-control", id="summonerSearch", placeholder="Summoner ID")
         small(id="summonerSearchHelp", class="form-text text-muted") Currently only supporting EUW.
       div(class="col-auto")
-        button(type="submit", class="btn btn-primary btnMainColor", id="summonerSearchSubmit" onclick="showLoadingIcon('summonerSearchForm')") Submit
+        button(type="submit", class="btn btn-primary btnMainColor", id="summonerSearchSubmit") Submit
 
     include loading.pug

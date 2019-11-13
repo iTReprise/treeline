@@ -16,10 +16,6 @@ html * {
   height: 100px;
 }
 
-.cap {
-  text-transform: lowercase;
-}
-
 .cap::first-letter {
   text-transform: uppercase;
 }

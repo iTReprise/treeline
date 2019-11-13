@@ -21,6 +21,7 @@
     "express": "^4.17.1",
     "http": "0.0.0",
     "http-errors": "^1.7.3",
+    "jquery": "^3.4.1",
     "pug": "^2.0.4",
     "request": "^2.88.0",
     "request-promise": "^4.2.5"
@@ -29,6 +30,7 @@
     "eslint": "^6.6.0",
     "eslint-config-airbnb-base": "^14.0.0",
     "eslint-plugin-import": "^2.18.2",
-    "nodemon": "^1.19.4"
+    "nodemon": "^1.19.4",
+    "supports-color": "^7.1.0"
   }
 }

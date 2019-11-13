@@ -1,6 +1,7 @@
 const rp = require('request-promise');
+const debug = require('debug')('riot_stalker:api');
 
-const headers = { 'X-Riot-Token': 'RGAPI-91d3dd51-d25d-44c9-a894-a8c542918d94' };
+const headers = { 'X-Riot-Token': 'RGAPI-4b92ec0c-722a-4a5b-a345-2be4b8ac9df1' };
 
 /* Summoner API */
 
@@ -51,6 +52,7 @@ exports.getSummonerByAccount = async (account) => {
     .then((result) => result)
     .catch((err) => { throw new Error(`Error in API call: ${err}`); });
 };
+
 
 /* Match API - todo: tournament routes? */
 
@@ -114,6 +116,9 @@ exports.getChampions = async (championIds) => {
   return Object.values(champions.data).filter((ele) => parseInt(ele.key, 10) in championIds);
 };
 
+
+/* Data Dragon API */
+
 exports.idChampionNameMapping = async () => {
   const options = {
     uri: 'http://ddragon.leagueoflegends.com/cdn/9.22.1/data/en_US/champion.json',
@@ -146,4 +151,17 @@ exports.idGameModeMapping = async () => {
   });
 
   return idModeMapping;
+};
+
+
+/* League API - todo: lots of stuff */
+
+exports.getLeagueEntries = async (encSummonerId) => {
+  const options = {
+    uri: `https://euw1.api.riotgames.com/lol/league/v4/entries/by-summoner/${encSummonerId}`,
+    headers,
+    json: true,
+  };
+
+  return rp(options).catch((err) => { throw new Error(`Error in API call: ${err}`); });
 };
