@@ -1,0 +1,22 @@
+.row.justify-content-center
+  .container.p-2
+    form.form-row.justify-content-center(action="/search", method="post")
+      .col-auto
+        input(type="text", name="champion", class="form-control", id="championFilter", placeholder="Champion ID")
+      .col-auto
+        select(name="queue", class="form-control", id="queueFilter", placeholder="Queue ID")
+          option(value="") Queue ID
+          option(value="420") Ranked Solo
+          option(value="440") Ranked Flex
+          option(value="400") Draft Pick
+          option(value="430") Blind Pick
+          option(value="450") ARAM
+          option(value="900") URF
+      .col-auto
+        select(name="season", class="form-control", id="seasonFilter", placeholder="Season ID")
+          option(value="",) Season ID
+          each season in seasonsMapping
+            option(value= season.id)= season.season.toLowerCase().replace(/_/g, ' ').replace(/\b[a-z]\B/g, (v) => v.toUpperCase()) 
+      .col-auto
+        input(type="hidden", name="summoner", class="form-control", id="nameFilter", placeholder="Champion ID" value= summonerResponse.name)
+        button(type="submit", class="btn btn-primary btnMainColor", id="championFilterSubmit") Filter Matchlist

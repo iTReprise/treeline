@@ -11,13 +11,18 @@ exports.searchGet = async (req, res) => {
 exports.searchPost = async (req, res, next) => {
   debug(`${req.method} ${req.url}`);
   const { summoner } = req.body;
-  const idNameMapping = await api.idChampionNameMapping().catch(next);
+  const { champion } = req.body;
+  const { queue } = req.body;
+  const { season } = req.body;
+  const idNameBoth = await api.idChampionNameMapping('both').catch(next);
   const idModeMapping = await api.idGameModeMapping().catch(next);
+  const seasonsMapping = await api.seasonsMapping().catch(next);
   const summonerResponse = await api.getSummonerByName(summoner).catch(next);
   const leagueResponse = await api.getLeagueEntries(summonerResponse.id).catch(next);
-  const matchlistResponse = await api.getMatchlist(summonerResponse.accountId).catch(next);
+  const matchlistResponse = await api.getMatchlist(summonerResponse.accountId, { champion, queue, season }).catch(next);
 
-  debug('%O', leagueResponse[0].queueType);
+  const { idNameMapping } = idNameBoth;
+  const { idNameArray } = idNameBoth;
 
   res.render('searchResult', {
     summonerResponse,
@@ -25,5 +30,7 @@ exports.searchPost = async (req, res, next) => {
     leagueResponse,
     idNameMapping,
     idModeMapping,
+    seasonsMapping,
+    idNameArray,
   });
 };

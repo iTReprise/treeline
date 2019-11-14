@@ -16,10 +16,6 @@ html * {
   height: 100px;
 }
 
-.cap::first-letter {
-  text-transform: uppercase;
-}
-
 .btnMainColor {
   background-color: #aaa1c8;
   border-color: #aaa1c8;

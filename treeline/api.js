@@ -1,7 +1,7 @@
 const rp = require('request-promise');
 const debug = require('debug')('riot_stalker:api');
 
-const headers = { 'X-Riot-Token': 'RGAPI-4b92ec0c-722a-4a5b-a345-2be4b8ac9df1' };
+const headers = { 'X-Riot-Token': 'RGAPI-488de383-cc2a-4feb-9a2e-2324de9dd96b' };
 
 /* Summoner API */
 
@@ -68,6 +68,24 @@ exports.getMatch = async (matchId) => {
     .catch((err) => { throw new Error(`Error in API call: ${err}`); });
 };
 
+exports.getMatchResult = async (matchId, summonerName) => {
+  const options = {
+    uri: `https://euw1.api.riotgames.com/lol/match/v4/matches/${matchId}`,
+    headers,
+    json: true,
+  };
+
+  return rp(options)
+    .then((result) => {
+      const { participantId } = result.participantIdentities
+        .find((ele) => ele.player.summonerName === summonerName);
+      const { win } = result.participants
+        .find((ele) => ele.participantId === participantId).stats;
+      return win;
+    })
+    .catch((err) => { throw new Error(`Error in API call: ${err}`); });
+};
+
 exports.getMatchlist = async (accountId, qs) => {
   const options = {
     uri: `https://euw1.api.riotgames.com/lol/match/v4/matchlists/by-account/${accountId}`,
@@ -119,7 +137,7 @@ exports.getChampions = async (championIds) => {
 
 /* Data Dragon API */
 
-exports.idChampionNameMapping = async () => {
+exports.idChampionNameMapping = async (mode) => {
   const options = {
     uri: 'http://ddragon.leagueoflegends.com/cdn/9.22.1/data/en_US/champion.json',
     headers,
@@ -127,15 +145,18 @@ exports.idChampionNameMapping = async () => {
   };
 
   const champions = await rp(options).catch((err) => { throw new Error(`Error in API call: ${err}`); });
-  const idNamesMapping = {};
+  const idNameMapping = {};
+  const idNameArray = [];
   Object.values(champions.data).forEach((ele) => {
-    idNamesMapping[ele.key] = ele.name;
+    idNameMapping[ele.key] = ele.name;
+    idNameArray.push({ name: ele.name, id: ele.key });
   });
 
-  return idNamesMapping;
+  if (mode === 'both') return { idNameArray, idNameMapping };
+  return mode === 'array' ? idNameArray : idNameMapping;
 };
 
-exports.idGameModeMapping = async () => {
+exports.idGameModeMapping = async (mode) => {
   const options = {
     uri: 'http://static.developer.riotgames.com/docs/lol/queues.json',
     headers,
@@ -143,16 +164,33 @@ exports.idGameModeMapping = async () => {
   };
 
   const queues = await rp(options).catch((err) => { throw new Error(`Error in API call: ${err}`); });
-  const idModeMapping = {};
+
+  /* Return array, if specified by function parameter */
+  if (mode === 'array') return queues.filter((ele) => ele.notes == null);
+
+  const idModeMapping = [];
   queues.forEach((ele) => {
     if (ele.queueId !== 0) {
+      if (ele.notes != null && ele.notes.toLowerCase().includes('deprecated')) {
+        return;
+      }
       idModeMapping[ele.queueId] = ele.description.replace(/( games)/, '');
     }
   });
 
+  /* Normal return (map: key = id, value = queue name */
   return idModeMapping;
 };
 
+exports.seasonsMapping = async () => {
+  const options = {
+    uri: 'http://static.developer.riotgames.com/docs/lol/seasons.json',
+    headers,
+    json: true,
+  };
+
+  return rp(options).catch((err) => { throw new Error(`Error in API call: ${err}`); });
+};
 
 /* League API - todo: lots of stuff */
 

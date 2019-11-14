@@ -6,13 +6,15 @@ block content
 
   //- summoner search result introduction
   div(class="container p-2")
-    .row.text-center
+    .row
       .col
         img#profileIcon(src="http://ddragon.leagueoflegends.com/cdn/9.22.1/img/profileicon/" + summonerResponse.profileIconId + ".png", alt="Profile icon")
       each league in leagueResponse
         +rankedInfos(league)
-    .row.text-center
+    .row.justify-content-center
       h2.p-3= summonerResponse.name + ' - Level ' + summonerResponse.summonerLevel
+    include filter.pug
+        
   
   .container.p-2
     table.table
@@ -24,16 +26,16 @@ block content
           th(scope="col") Lane
           th(scope="col") Date
       each match in matchlistResponse.matches
-        +matchlistTableRow(match.queue, match.champion, match.role, match.lane, match.timestamp)
+        +matchlistTableRow(match.queue, match.champion, match.role, match.lane, match.timestamp, match.gameId)
 
 
-mixin matchlistTableRow(mode, champion, role, lane, timestamp)
-  tbody
+mixin matchlistTableRow(mode, champion, role, lane, timestamp, id)
+  tbody(id= id)
     tr
       th(scope="col")= idModeMapping[mode]
       th= idNameMapping[champion]
-      th.cap= role.toLowerCase().replace(/_/g, ' ').replace(/\b[a-z]\B/g, (v) => v.toUpperCase())
-      th.cap= lane.toLowerCase()
+      th= role.toLowerCase().replace(/_/g, ' ').replace(/\b[a-z]\B/g, (v) => v.toUpperCase())
+      th= lane.toLowerCase().replace(/\b[a-z]\B/g, (v) => v.toUpperCase())
       th= new Date(timestamp).toUTCString()
 
 mixin rankedInfos(league)
@@ -41,5 +43,5 @@ mixin rankedInfos(league)
     .row
       p= league.queueType.replace(/_/g, ' ').toLowerCase().replace(/(\b(?!(\b[a-z]{3}\B))[a-z]{2,3})|(\b[a-z]\B)/g, (v) => v.toUpperCase())
     .row
-      p.cap= league.tier.toLowerCase() + ' ' + league.rank
+      p= league.tier.toLowerCase().replace(/\b[a-z]\B/, (v) => v.toUpperCase()) + ' ' + league.rank
 
