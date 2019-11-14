@@ -1,7 +1,8 @@
 const rp = require('request-promise');
 const debug = require('debug')('riot_stalker:api');
+const { token } = require('./api_token');
 
-const headers = { 'X-Riot-Token': 'RGAPI-488de383-cc2a-4feb-9a2e-2324de9dd96b' };
+const headers = { 'X-Riot-Token': token };
 
 /* Summoner API */
 
