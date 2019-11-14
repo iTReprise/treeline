@@ -15,7 +15,7 @@
     "tft"
   ],
   "author": "Florian Utku",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "debug": "^4.1.1",
     "express": "^4.17.1",
