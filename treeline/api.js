@@ -14,7 +14,7 @@ exports.getSummonerByName = async (name) => {
 
   return rp(options)
     .then((result) => result)
-    .catch((err) => { throw new Error(`Error in API call: ${err}`); });
+    .catch();
 };
 
 exports.getSummonerByPuuid = async (puuid) => {
@@ -26,7 +26,7 @@ exports.getSummonerByPuuid = async (puuid) => {
 
   return rp(options)
     .then((result) => result)
-    .catch((err) => { throw new Error(`Error in API call: ${err}`); });
+    .catch();
 };
 
 exports.getSummonerById = async (id) => {
@@ -38,7 +38,7 @@ exports.getSummonerById = async (id) => {
 
   return rp(options)
     .then((result) => result)
-    .catch((err) => { throw new Error(`Error in API call: ${err}`); });
+    .catch();
 };
 
 exports.getSummonerByAccount = async (account) => {
@@ -50,7 +50,7 @@ exports.getSummonerByAccount = async (account) => {
 
   return rp(options)
     .then((result) => result)
-    .catch((err) => { throw new Error(`Error in API call: ${err}`); });
+    .catch();
 };
 
 
@@ -65,7 +65,7 @@ exports.getMatch = async (matchId) => {
 
   return rp(options)
     .then((result) => result)
-    .catch((err) => { throw new Error(`Error in API call: ${err}`); });
+    .catch();
 };
 
 exports.getMatchResult = async (matchId, summonerName) => {
@@ -83,7 +83,7 @@ exports.getMatchResult = async (matchId, summonerName) => {
         .find((ele) => ele.participantId === participantId).stats;
       return win;
     })
-    .catch((err) => { throw new Error(`Error in API call: ${err}`); });
+    .catch();
 };
 
 exports.getMatchlist = async (accountId, qs) => {
@@ -96,7 +96,11 @@ exports.getMatchlist = async (accountId, qs) => {
 
   return rp(options)
     .then((result) => result)
-    .catch((err) => { throw new Error(`Error in API call: ${err}`); });
+    .catch((err) => {
+      /* Don't escalate, because this case is handled in the searchResult */
+      if (err.statusCode === 404) return;
+      throw err;
+    });
 };
 
 exports.getMatchTimeline = async (matchId) => {
@@ -108,7 +112,7 @@ exports.getMatchTimeline = async (matchId) => {
 
   return rp(options)
     .then((result) => result)
-    .catch((err) => { throw new Error(`Error in API call: ${err}`); });
+    .catch();
 };
 
 exports.getChampionData = async (championId) => {
@@ -120,7 +124,7 @@ exports.getChampionData = async (championId) => {
 
   return rp(options)
     .then((result) => Object.values(result.data).find((ele) => ele.key === championId.toString()))
-    .catch((err) => { throw new Error(`Error in API call: ${err}`); });
+    .catch();
 };
 
 exports.getChampions = async (championIds) => {
@@ -130,7 +134,7 @@ exports.getChampions = async (championIds) => {
     json: true,
   };
 
-  const champions = await rp(options).catch((err) => { throw new Error(`Error in API call: ${err}`); });
+  const champions = await rp(options).catch();
   return Object.values(champions.data).filter((ele) => parseInt(ele.key, 10) in championIds);
 };
 
@@ -144,7 +148,7 @@ exports.idChampionNameMapping = async (mode) => {
     json: true,
   };
 
-  const champions = await rp(options).catch((err) => { throw new Error(`Error in API call: ${err}`); });
+  const champions = await rp(options).catch();
   const idNameMapping = {};
   const idNameArray = [];
   Object.values(champions.data).forEach((ele) => {
@@ -163,7 +167,7 @@ exports.idGameModeMapping = async (mode) => {
     json: true,
   };
 
-  const queues = await rp(options).catch((err) => { throw new Error(`Error in API call: ${err}`); });
+  const queues = await rp(options).catch();
 
   /* Return array, if specified by function parameter */
   if (mode === 'array') return queues.filter((ele) => ele.notes == null);
@@ -189,7 +193,7 @@ exports.seasonsMapping = async () => {
     json: true,
   };
 
-  return rp(options).catch((err) => { throw new Error(`Error in API call: ${err}`); });
+  return rp(options).catch();
 };
 
 /* League API - todo: lots of stuff */
@@ -201,5 +205,5 @@ exports.getLeagueEntries = async (encSummonerId) => {
     json: true,
   };
 
-  return rp(options).catch((err) => { throw new Error(`Error in API call: ${err}`); });
+  return rp(options).catch();
 };

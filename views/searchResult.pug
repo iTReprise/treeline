@@ -2,41 +2,19 @@ extends layout
 
 block content
 
-  - const cap = (s) => s.toLowerCase().split(/( |_)/g).map((w) => `${w.substring(0, 1).toUpperCase()}${w.substring(1)}`).join('');
-
   //- summoner search result introduction
-  div(class="container p-2")
+  div(class="container p-3")
     .row
       .col
-        img#profileIcon(src="http://ddragon.leagueoflegends.com/cdn/9.22.1/img/profileicon/" + summonerResponse.profileIconId + ".png", alt="Profile icon")
-      each league in leagueResponse
+        img#profileIcon(src="http://ddragon.leagueoflegends.com/cdn/9.22.1/img/profileicon/" + result.summonerResponse.profileIconId + ".png", alt="Profile icon")
+      each league in result.leagueResponse
         +rankedInfos(league)
     .row.justify-content-center
-      h2.p-3= summonerResponse.name + ' - Level ' + summonerResponse.summonerLevel
+      h2.p-3= result.summonerResponse.name + ' - Level ' + result.summonerResponse.summonerLevel
     include filter.pug
+    include loading
         
-  
-  .container.p-2
-    table.table
-      thead
-        tr
-          th(scope="col") Mode
-          th(scope="col") Champion
-          th(scope="col") Role
-          th(scope="col") Lane
-          th(scope="col") Date
-      each match in matchlistResponse.matches
-        +matchlistTableRow(match.queue, match.champion, match.role, match.lane, match.timestamp, match.gameId)
-
-
-mixin matchlistTableRow(mode, champion, role, lane, timestamp, id)
-  tbody(id= id)
-    tr
-      th(scope="col")= idModeMapping[mode]
-      th= idNameMapping[champion]
-      th= role.toLowerCase().replace(/_/g, ' ').replace(/\b[a-z]\B/g, (v) => v.toUpperCase())
-      th= lane.toLowerCase().replace(/\b[a-z]\B/g, (v) => v.toUpperCase())
-      th= new Date(timestamp).toUTCString()
+  include matchlist
 
 mixin rankedInfos(league)
   .col

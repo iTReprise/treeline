@@ -11,20 +11,21 @@ html(lang="en")
     link(rel="shortcut icon", href="/images/favicon.ico", type="image/x-icon")
     script(src="/js/jquery-3.4.1.min.js")
     script(src="/js/main.js")
+
     title Treeline
 
   body
-    main(class="wrapper")
+    main.wrapper
 
-    //- Navigation
-    include navigation.pug
+      //- Navigation
+      include navigation.pug
 
-    //- Headline
-    div(class="container-fluid")
-      div(class="row p-3")
-        div(class="col")
-          h1(class="text-center return") Treeline
-          h2(class="text-center return") Don't get lost!
+      //- Headline
+      .container-fluid
+        .row.p-3
+          .col
+            h1.text-center.return Treeline
+            h2.text-center.return Don't get lost!
 
-    //- Content
-    block content
+      //- Content
+      block content

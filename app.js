@@ -25,8 +25,9 @@ app.use((err, req, res, next) => {
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
 
+  debug('%O', err.message);
+
   res.status(err.status || 500);
-  debug('%O', err);
   res.render('error');
 });
 

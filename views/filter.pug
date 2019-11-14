@@ -1,8 +1,11 @@
 .row.justify-content-center
-  .container.p-2
-    form.form-row.justify-content-center(action="/search", method="post")
+  .container.p-3
+    form.form-row.justify-content-center#summonerSearchFilter(action="/search", method="post")
       .col-auto
-        input(type="text", name="champion", class="form-control", id="championFilter", placeholder="Champion ID")
+        select(type="text", name="champion", class="form-control", id="championFilter", placeholder="Champion ID")
+          option(value="") Champion
+          each champion in result.idNameBoth.idNameArray
+            option(value= champion.id)= champion.name
       .col-auto
         select(name="queue", class="form-control", id="queueFilter", placeholder="Queue ID")
           option(value="") Queue ID
@@ -15,8 +18,8 @@
       .col-auto
         select(name="season", class="form-control", id="seasonFilter", placeholder="Season ID")
           option(value="",) Season ID
-          each season in seasonsMapping
+          each season in result.seasonsMapping
             option(value= season.id)= season.season.toLowerCase().replace(/_/g, ' ').replace(/\b[a-z]\B/g, (v) => v.toUpperCase()) 
       .col-auto
-        input(type="hidden", name="summoner", class="form-control", id="nameFilter", placeholder="Champion ID" value= summonerResponse.name)
+        input(type="hidden", name="summoner", class="form-control", id="nameFilter", placeholder="Champion ID" value= result.summonerResponse.name)
         button(type="submit", class="btn btn-primary btnMainColor", id="championFilterSubmit") Filter Matchlist

@@ -1,9 +1,9 @@
-extends layout
+extends layout.pug
 
 block content
 
   //- summoner search introduction
-  div(class="container p-2")
+  div(class="container p-3")
     div(class="row")
       div(class="col")
         h3(class="text-center") You want to find out if your friends are still alive? Go check on them and find out when they played their last game of League/TFT. Because we all know, that even if someone disappears from all social media, their League addiction won't cease!
@@ -17,4 +17,4 @@ block content
       div(class="col-auto")
         button(type="submit", class="btn btn-primary btnMainColor", id="summonerSearchSubmit") Submit
 
-    include loading.pug
+    include loading

@@ -1,0 +1,25 @@
+- const cap = (s) => s.toLowerCase().split(/( |_)/g).map((w) => `${w.substring(0, 1).toUpperCase()}${w.substring(1)}`).join('');
+
+mixin matchlistTableRow(mode, champion, role, lane, timestamp, id)
+  tbody(id= id)
+    tr
+      th(scope="col")= result.idModeMapping[mode]
+      th= result.idNameBoth.idNameMapping[champion]
+      th= role.toLowerCase().replace(/_/g, ' ').replace(/\b[a-z]\B/g, (v) => v.toUpperCase())
+      th= lane.toLowerCase().replace(/\b[a-z]\B/g, (v) => v.toUpperCase())
+      th= new Date(timestamp).toUTCString()
+
+.container.p-3
+  if result.matchlistResponse == null
+    h3.text-center No results.
+  else
+    table.table#matchlist
+      thead
+        tr
+          th(scope="col") Mode
+          th(scope="col") Champion
+          th(scope="col") Role
+          th(scope="col") Lane
+          th(scope="col") Date
+      each match in result.matchlistResponse.matches
+        +matchlistTableRow(match.queue, match.champion, match.role, match.lane, match.timestamp, match.gameId)
