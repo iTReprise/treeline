@@ -1,6 +1,9 @@
 {
-  "name": "riot_stalker",
+  "name": "treeline",
   "version": "0.0.1",
+  "engines": {
+    "node": "12.13.0"
+  },
   "private": true,
   "description": "You want to find out if your friends are still alive? Go check on them and find out when they played their last game of League/TFT. Because we all know, that even if someone disappears from all social media, their League addiction won't cease!",
   "scripts": {
