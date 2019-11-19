@@ -30,6 +30,9 @@ html * {
   border-color: #aaa1c8;
 }
 
+.cap {
+  text-transform: capitalize;
+}
 
 .btnMainColor:hover,
 .btnMainColor:active,

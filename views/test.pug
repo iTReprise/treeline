@@ -1,0 +1,42 @@
+extends layout.pug
+
+block content
+  
+  .container.p-3(style="width: 85%")
+    each champ in result.data
+    
+      //- Champ introduction
+      .row
+        .col-lg
+          .card.mb-3
+            .card-body
+              .row
+                .col-auto
+                  img(src="http://ddragon.leagueoflegends.com/cdn/9.23.1/img/champion/" + champ.id + ".png", alt="...")
+                .col
+                  h3.card-title= champ.name
+                  h4.card-subtitle.mb-2.text-muted= champ.title
+              .row.mt-3
+                .col
+                  p.card-text= champ.lore
+
+      //- Playing Tips
+      .row
+        +tips(champ.allytips, 'as', champ.name)
+        +tips(champ.enemytips, 'against', champ.name)
+      
+      //- Champ Art
+      .row
+        .col-lg
+          image.img-fluid(src="http://ddragon.leagueoflegends.com/cdn/img/champion/splash/" + champ.id + "_0.jpg", alt="...")
+
+
+
+mixin tips(tipArray, side, name)
+  .col-lg
+    .card.mb-3
+      .card-body
+        h4.card-title.mb-2.text-center Playing #{side} #{name}
+        ul.list-group.list-group-flush
+          each tip in tipArray
+            li.list-group-item= tip

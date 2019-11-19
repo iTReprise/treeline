@@ -23,11 +23,9 @@ html(lang="en")
       //- Headline
       .container-fluid
         .row.p-3
-          .col
-            h1.text-center
-              a.return(href="/") Treeline
-            h2.text-center 
-              a.return(href="/") Don't get lost!
+          .col(onclick="location.href='/'", style="cursor: pointer;")
+            h1.text-center Treeline
+            h2.text-center Don't get lost!
 
       //- Content
       block content
