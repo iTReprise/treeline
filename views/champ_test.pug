@@ -1,0 +1,55 @@
+extends layout.pug
+
+block content
+
+  h1 Champion Cards Version 1
+  div(class="container-fluid p-3")
+    .row
+      each champ in result
+        .col-3
+          .card.mb-4
+            h5.card-header= champ.name + ', ' + champ.title
+            .row.card-body
+              .col
+                img.card-img(src="http://ddragon.leagueoflegends.com/cdn/img/champion/loading/" + champ.id + "_0.jpg", alt="...")
+              .col= champ.blurb
+
+  h1 Champion Cards Version 2
+  .container-fluid.p-3
+    .row
+      each champ in result
+        .col-3
+          .card.mb-3
+            .row.no-gutters
+              .col.md-4
+                img.card-img(src="http://ddragon.leagueoflegends.com/cdn/img/champion/loading/" + champ.id + "_0.jpg", alt="...")
+              .col.md-8
+                .card-body
+                  h5.card-title= champ.name + ', ' + champ.title
+                  p.card-text= champ.blurb
+
+  h1 Champion Cards Version 3
+  div(class="container-fluid p-3")
+    .row
+      each champ in result
+        .col-4
+          .card.mb-4
+            h5.card-header= champ.name + ', ' + champ.title
+            .row.card-body
+              .col
+                img.card-img(src="http://ddragon.leagueoflegends.com/cdn/img/champion/loading/" + champ.id + "_0.jpg", alt="...")
+              .col= champ.blurb
+
+  h1 Champion Cards Version 4
+  .container-fluid.p-3
+    .row
+      each champ in result
+        .col-4
+          .card.mb-3
+            .row.no-gutters
+              .col.md-4
+                img.card-img(src="http://ddragon.leagueoflegends.com/cdn/img/champion/loading/" + champ.id + "_0.jpg", alt="...")
+              .col.md-8
+                .card-body
+                  h5.card-title= champ.name + ', ' + champ.title
+                  p.card-text= champ.blurb

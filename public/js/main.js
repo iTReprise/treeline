@@ -13,8 +13,9 @@ $(() => {
     $('#fountainG').show();
   });
 
-  /* reload homepage */
+  /* reload homepage
   $('.return').click(() => {
     $.get('/', (data) => document.write(data));
   });
+  */
 });
