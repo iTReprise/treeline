@@ -11,6 +11,15 @@ html * {
   border: #967aa1;
 }
 
+.return {
+  color: black;
+}
+
+.return:hover {
+  color: #967aa1;
+}
+
+
 #profileIcon {
   width: 100px;
   height: 100px;

@@ -5,6 +5,7 @@ const debug = require('debug')('riot_stalker:app');
 
 /* Import Routes */
 const searchRouter = require('./routes/search');
+const champRouter = require('./routes/champ');
 
 const app = express();
 app.set('views', path.join(__dirname, 'views'));
@@ -16,6 +17,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.get('/', (req, res) => res.redirect('/search'));
 app.use('/', searchRouter);
+app.use('/', champRouter);
 
 /* Catch 404 and forward to error handler */
 app.use((req, res, next) => next(createError(404)));

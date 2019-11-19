@@ -135,7 +135,8 @@ exports.getChampions = async (championIds) => {
   };
 
   const champions = await rp(options).catch();
-  return Object.values(champions.data).filter((ele) => parseInt(ele.key, 10) in championIds);
+  if (championIds) return Object.values(champions.data).filter((ele) => championIds.includes(parseInt(ele.key, 10)));
+  return champions;
 };
 
 
