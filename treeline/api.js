@@ -115,36 +115,37 @@ exports.getMatchTimeline = async (matchId) => {
     .catch();
 };
 
-exports.getChampionData = async (championId) => {
+
+/* Data Dragon API */
+
+exports.getChampionData = async (champion) => {
   const options = {
-    uri: 'http://ddragon.leagueoflegends.com/cdn/9.22.1/data/en_US/champion.json',
+    uri: `http://ddragon.leagueoflegends.com/cdn/9.23.1/data/en_US/champion/${champion}.json`,
     headers,
     json: true,
   };
 
-  return rp(options)
-    .then((result) => Object.values(result.data).find((ele) => ele.key === championId.toString()))
-    .catch();
+  return rp(options).catch();
 };
 
 exports.getChampions = async (championIds) => {
   const options = {
-    uri: 'http://ddragon.leagueoflegends.com/cdn/9.22.1/data/en_US/champion.json',
+    uri: 'http://ddragon.leagueoflegends.com/cdn/9.23.1/data/en_US/champion.json',
     headers,
     json: true,
   };
 
   const champions = await rp(options).catch();
-  if (championIds) return Object.values(champions.data).filter((ele) => championIds.includes(parseInt(ele.key, 10)));
+  if (championIds) {
+    return Object.values(champions.data).filter((ele) => championIds.includes(parseInt(ele.key, 10)));
+  }
   return champions;
 };
 
 
-/* Data Dragon API */
-
 exports.idChampionNameMapping = async (mode) => {
   const options = {
-    uri: 'http://ddragon.leagueoflegends.com/cdn/9.22.1/data/en_US/champion.json',
+    uri: 'http://ddragon.leagueoflegends.com/cdn/9.23.1/data/en_US/champion.json',
     headers,
     json: true,
   };

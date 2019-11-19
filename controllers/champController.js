@@ -5,9 +5,20 @@ const api = require('../treeline/api');
 exports.champGet = async (req, res, next) => {
   debug(`${req.method} ${req.url}`);
 
-  api.getChampions([84, 39, 40, 235]) // remove parameter for full champ list
+  api.getChampions() // remove parameter for full champ list
+    .then((result) => res.render('champ', { result }))
+    .catch(next);
+};
+
+/* GET Specific champion */
+exports.getDetails = async (req, res, next) => {
+  debug(`${req.method} ${req.url}`);
+  const champId = req.url.split('/')[2];
+
+  api.getChampionData(champId)
     .then((result) => {
-      res.render('champ_test', { result });
+      debug('%o', result.data[champId]);
+      res.render('test', { result });
     })
     .catch(next);
 };

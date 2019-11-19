@@ -1,0 +1,21 @@
+extends layout.pug
+
+block content
+  
+  //- Champion Cards Version 4
+  .container-fluid.p-3(style="width: 85%")
+    .row
+      each champ in result.data
+        .col-md-3
+          .card.mb-3
+            .row.no-gutters(id= champ.id, onclick="location.href='/champ/" + champ.id + "';", style="cursor: pointer;")
+              .col.md-4
+                img.card-img(src="http://ddragon.leagueoflegends.com/cdn/img/champion/loading/" + champ.id + "_0.jpg", alt="...")
+              .col.md-8
+                .card-body
+                  h4.card-title= champ.name + ', ' + champ.title
+                  br
+                  each value, index in champ.info
+                    p.card-text.cap.mb-0= index + ': ' + value
+                  br
+                  p.card-text= champ.tags.join('; ')
