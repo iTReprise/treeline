@@ -1,23 +1,33 @@
 extends layout
 
+block navigation
+  
+  include navigation
+    .collapse.navbar-collapse#navbarSupportedContent
+      ul.navbar-nav.mr-auto
+        li.nav-item.active
+          a.nav-link(href="/search") Search
+        li.nav-item
+          a.nav-link(href="/champ") Champions
+
 block content
 
   //- summoner search result introduction
   div(class="container p-3")
-    .row
-      .col
+    .row.justify-content-center
+      .col-auto
         img#profileIcon(src="http://ddragon.leagueoflegends.com/cdn/9.22.1/img/profileicon/" + result.summonerResponse.profileIconId + ".png", alt="Profile icon")
       each league in result.leagueResponse
         +rankedInfos(league)
     .row.justify-content-center
       h2.p-3= result.summonerResponse.name + ' - Level ' + result.summonerResponse.summonerLevel
-    include filter.pug
+    include filter
     include loading
         
   include matchlist
 
 mixin rankedInfos(league)
-  .col
+  .col-auto.ml-4
     .row
       p= league.queueType.replace(/_/g, ' ').toLowerCase().replace(/(\b(?!(\b[a-z]{3}\B))[a-z]{2,3})|(\b[a-z]\B)/g, (v) => v.toUpperCase())
     .row

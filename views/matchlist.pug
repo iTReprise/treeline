@@ -9,17 +9,17 @@ mixin matchlistTableRow(mode, champion, role, lane, timestamp, id)
       th= lane.toLowerCase().replace(/\b[a-z]\B/g, (v) => v.toUpperCase())
       th= new Date(timestamp).toUTCString()
 
-.container.p-3
+.container.p-3.scrollable(data-simplebar)
   if result.matchlistResponse == null
     h3.text-center No results.
   else
     table.table#matchlist
       thead
         tr
-          th(scope="col") Mode
-          th(scope="col") Champion
-          th(scope="col") Role
-          th(scope="col") Lane
-          th(scope="col") Date
+          th(scope="col", style="width: 15%") Mode
+          th(scope="col", style="width: 15%") Champion
+          th(scope="col", style="width: 15%") Role
+          th(scope="col", style="width: 15%") Lane
+          th(scope="col", style="width: 20%") Date
       each match in result.matchlistResponse.matches
         +matchlistTableRow(match.queue, match.champion, match.role, match.lane, match.timestamp, match.gameId)
