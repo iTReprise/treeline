@@ -8,23 +8,25 @@ html(lang="en")
     link(rel="stylesheet", href="/css/bootstrap.min.css")
     link(rel="stylesheet", href="/css/index.css")
     link(rel="stylesheet", href="/css/loading.css")
+    link(rel="stylesheet", href="/css/simplebar.css")
     link(rel="shortcut icon", href="/images/favicon.ico", type="image/x-icon")
     script(src="/js/jquery-3.4.1.min.js")
+    script(src="/js/simplebar.min.js")
     script(src="/js/main.js")
 
-    title Treeline
+    title Statlane
 
   body
-    main.wrapper
+    main.wrapper.data-simplebar
 
       //- Navigation
-      include navigation.pug
+      block navigation
 
       //- Headline
       .container-fluid
         .row.p-3
           .col(onclick="location.href='/'", style="cursor: pointer;")
-            h1.text-center Treeline
+            h1.text-center Statlane
             h2.text-center Don't get lost!
 
       //- Content

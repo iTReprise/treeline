@@ -47,7 +47,12 @@ html * {
 .form-control:focus {
   border-color: #967aa1;
   box-shadow: 0 0 0 0.2rem rgba(25, 42, 81, 0.25);
-} 
+}
+
+.scrollable {
+  height: calc(100vh - 500px);
+  overflow-y: visible;
+}
 
 /*
 ** Github Corner-Banner

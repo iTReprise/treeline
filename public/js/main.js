@@ -12,10 +12,4 @@ $(() => {
     $('#summonerSearchFilter').hide();
     $('#fountainG').show();
   });
-
-  /* reload homepage
-  $('.return').click(() => {
-    $.get('/', (data) => document.write(data));
-  });
-  */
 });

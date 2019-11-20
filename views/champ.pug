@@ -1,5 +1,15 @@
 extends layout.pug
 
+block navigation
+
+  include navigation
+    .collapse.navbar-collapse#navbarSupportedContent
+      ul.navbar-nav.mr-auto
+        li.nav-item
+          a.nav-link(href="/search") Search
+        li.nav-item.active
+          a.nav-link(href="/champ") Champions
+
 block content
   
   //- Champion Cards Version 4
