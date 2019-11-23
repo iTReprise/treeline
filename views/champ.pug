@@ -13,7 +13,7 @@ block navigation
 block content
   
   //- Champion Cards Version 4
-  .container-fluid.p-3(style="width: 85%")
+  .container-fluid.p-3.champs(data-simplebar, style="width: 85%")
     .row
       each champ in result.data
         .col-md-3
@@ -24,8 +24,6 @@ block content
               .col.md-8
                 .card-body
                   h4.card-title= champ.name + ', ' + champ.title
-                  br
                   each value, index in champ.info
                     p.card-text.cap.mb-0= index + ': ' + value
-                  br
                   p.card-text= champ.tags.join('; ')

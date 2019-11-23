@@ -12,7 +12,7 @@ block navigation
 
 block content
   
-  .container.p-3(style="width: 85%")
+  .container.p-3.champs(style="width: 85%", data-simplebar)
     each champ in result.data
     
       //- Champ introduction
@@ -22,7 +22,7 @@ block content
             .card-body
               .row
                 .col-auto
-                  img(src="http://ddragon.leagueoflegends.com/cdn/9.23.1/img/champion/" + champ.id + ".png", alt="...")
+                  img(src="http://ddragon.leagueoflegends.com/cdn/9.23.1/img/champion/" + champ.id + ".png", alt= champ.id + " minimap icon")
                 .col
                   h3.card-title= champ.name
                   h4.card-subtitle.mb-2.text-muted= champ.title
@@ -30,17 +30,71 @@ block content
                 .col
                   p.card-text= champ.lore
 
+      //- Spells
+      .row
+        +passive(champ.passive, champ.id)
+      each skill in champ.spells
+        .row
+          +skill(skill, champ.id, champ.partype)
+
       //- Playing Tips
       .row
         +tips(champ.allytips, 'as', champ.name)
         +tips(champ.enemytips, 'against', champ.name)
-      
+
       //- Champ Art
       .row
         .col-lg
-          image.img-fluid(src="http://ddragon.leagueoflegends.com/cdn/img/champion/splash/" + champ.id + "_0.jpg", alt="...")
+          .carousel.slide#splashArts
+            ol.carousel-indicators
+              li.active(data-target="#splashArts", data-slide-to="0")
+              each skin, index in champ.skins
+                unless skin.num === 0
+                  li(data-target="#splashArts", data-slide-to= index+1)
+            .carousel-inner
+              .carousel-item.active
+                image.img-fluid(src="http://ddragon.leagueoflegends.com/cdn/img/champion/splash/" + champ.id + "_0.jpg", alt="...")
+                .carousel-caption
+                  h5= champ.name
+              each skin in champ.skins
+                unless skin.num === 0
+                  .carousel-item
+                    image.img-fluid(src="http://ddragon.leagueoflegends.com/cdn/img/champion/splash/" + champ.id + "_" + skin.num + ".jpg", alt="...")
+                    .carousel-caption
+                      h5= skin.name
+            a.carousel-control-prev(href="#splashArts", role="button", data-slide="prev")
+              span.carousel-control-prev-icon(aria-hidden="true")
+            a.carousel-control-next(href="#splashArts", role="button", data-slide="next")
+              span.carousel-control-next-icon(aria-hidden="true")
 
+mixin passive(passive, id)
+  .col-lg
+    .card.mb-3
+      .card-body
+        .row
+          .col-auto
+            img(src="http://ddragon.leagueoflegends.com/cdn/9.23.1/img/passive/" + passive.image.full, alt= id + " passive skill")
+          .col
+            h5.card-title.mb-2= passive.name
+        .row.mt-3
+          .col
+            p.card-text= passive.description.replace(/<[^>]*>/g, '')
 
+mixin skill(skill, id, resource)
+  .col-lg
+    .card.mb-3
+      .card-body
+        .row
+          .col-auto
+            img(src="http://ddragon.leagueoflegends.com/cdn/9.23.1/img/spell/" + skill.image.full, alt= id + " skill")
+          .col
+            h5.card-title.mb-2= skill.name
+            p.card-subtitle.mb-2.text-muted Cooldown: #{skill.cooldownBurn} seconds
+            p.card-subtitle.mb-2.text-muted Cost: #{skill.costBurn} #{resource}
+            //- p.card-subtitle.mb-2.text-muted Range: #{skill.rangeBurn}
+        .row.mt-3
+          .col
+            p.card-text= skill.description.replace(/<[^>]*>/g, '')
 
 mixin tips(tipArray, side, name)
   .col-lg
