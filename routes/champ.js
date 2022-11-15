@@ -1,10 +1,10 @@
-const express = require('express');
-const champController = require('../controllers/champController');
+import Router from 'express';
+import {champGet, getDetails} from '../controllers/champ-controller.js';
 
-const router = express.Router();
+const router = new Router();
 
 /* GET Search page */
-router.get('/champ', champController.champGet);
-router.get('/champ/*', champController.getDetails);
+router.get('/champ', champGet);
+router.get('/champ/*', getDetails);
 
-module.exports = router;
+export default router;

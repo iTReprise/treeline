@@ -1,33 +1,31 @@
 #!/usr/bin/env node
+import process from 'node:process';
+import http from 'node:http';
+import debugModule from 'debug';
+import * as dotenv from 'dotenv';
+import app from '../app.js';
 
-/**
- * Module dependencies.
- */
+dotenv.config();
+const debug = debugModule('treeline:server');
+debug.enabled = true;
 
-const http = require('http');
-const debug = require('debug')('riot_stalker:server');
-const app = require('../app');
+function normalizePort(value) {
+  const parsedValue = Number.parseInt(value, 10);
 
-let port;
-let server;
-
-function normalizePort(val) {
-  const parsedVal = parseInt(val, 10);
-
-  if (Number.isNaN(parsedVal)) { return val; }
-  if (parsedVal >= 0) { return parsedVal; }
+  if (Number.isNaN(parsedValue)) { return value; }
+  if (parsedValue >= 0) { return parsedValue; }
 
   return false;
 }
 
-function onError(err) {
-  if (err.syscall !== 'listen') { throw err; }
+function onError(error) {
+  if (error.syscall !== 'listen') { throw error; }
 
   const bind = typeof port === 'string'
     ? `Pipe ${port}`
     : `Port ${port}`;
 
-  switch (err.code) {
+  switch (error.code) {
     case 'EACCES':
       console.error(`${bind} requires elevated privileges`);
       process.exit(1);
@@ -37,7 +35,7 @@ function onError(err) {
       process.exit(1);
       break;
     default:
-      throw err;
+      throw error;
   }
 }
 
@@ -51,10 +49,10 @@ function onListening() {
 }
 
 /* Get port from environment */
-port = normalizePort(process.env.PORT || '3000');
+const port = normalizePort(process.env.PORT || '3000');
 app.set('port', port);
 
-server = http.createServer(app);
+const server = http.createServer(app);
 
 server.listen(port);
 server.on('error', onError);

@@ -15,7 +15,7 @@ block content
   //- Champion Cards Version 4
   .container-fluid.p-3.champs(data-simplebar, style="width: 85%")
     .row
-      each champ in result.data
+      each champ in r.data
         .col-md-3
           .card.mb-3
             .row.no-gutters(id= champ.id, onclick="location.href='/champ/" + champ.id + "';", style="cursor: pointer;")

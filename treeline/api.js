@@ -1,11 +1,14 @@
-const rp = require('request-promise');
-const debug = require('debug')('riot_stalker:api');
+import process from 'node:process';
+import rp from 'request-promise';
+import debugModule from 'debug';
 
-const headers = { 'X-Riot-Token': process.env.TOKEN };
+const debug = debugModule('treeline:api');
+debug.enabled = true;
+
+const headers = {'X-Riot-Token': process.env.TOKEN};
 
 /* Summoner API */
-
-exports.getSummonerByName = async (name) => {
+const getSummonerByName = async name => {
   const options = {
     uri: `https://euw1.api.riotgames.com/lol/summoner/v4/summoners/by-name/${name}`,
     headers,
@@ -13,11 +16,11 @@ exports.getSummonerByName = async (name) => {
   };
 
   return rp(options)
-    .then((result) => result)
+    .then(result => result)
     .catch();
 };
 
-exports.getSummonerByPuuid = async (puuid) => {
+const getSummonerByPuuid = async puuid => {
   const options = {
     uri: `https://euw1.api.riotgames.com/lol/summoner/v4/summoners/by-puuid/${puuid}`,
     headers,
@@ -25,11 +28,11 @@ exports.getSummonerByPuuid = async (puuid) => {
   };
 
   return rp(options)
-    .then((result) => result)
+    .then(result => result)
     .catch();
 };
 
-exports.getSummonerById = async (id) => {
+const getSummonerById = async id => {
   const options = {
     uri: `https://euw1.api.riotgames.com/lol/summoner/v4/summoners/${id}`,
     headers,
@@ -37,11 +40,11 @@ exports.getSummonerById = async (id) => {
   };
 
   return rp(options)
-    .then((result) => result)
+    .then(result => result)
     .catch();
 };
 
-exports.getSummonerByAccount = async (account) => {
+const getSummonerByAccount = async account => {
   const options = {
     uri: `https://euw1.api.riotgames.com/lol/summoner/v4/summoners/by-account/${account}`,
     headers,
@@ -49,14 +52,12 @@ exports.getSummonerByAccount = async (account) => {
   };
 
   return rp(options)
-    .then((result) => result)
+    .then(result => result)
     .catch();
 };
-
 
 /* Match API - todo: tournament routes? */
-
-exports.getMatch = async (matchId) => {
+const getMatch = async matchId => {
   const options = {
     uri: `https://euw1.api.riotgames.com/lol/match/v4/matches/${matchId}`,
     headers,
@@ -64,11 +65,11 @@ exports.getMatch = async (matchId) => {
   };
 
   return rp(options)
-    .then((result) => result)
+    .then(result => result)
     .catch();
 };
 
-exports.getMatchResult = async (matchId, summonerName) => {
+const getMatchResult = async (matchId, summonerName) => {
   const options = {
     uri: `https://euw1.api.riotgames.com/lol/match/v4/matches/${matchId}`,
     headers,
@@ -76,17 +77,17 @@ exports.getMatchResult = async (matchId, summonerName) => {
   };
 
   return rp(options)
-    .then((result) => {
-      const { participantId } = result.participantIdentities
-        .find((ele) => ele.player.summonerName === summonerName);
-      const { win } = result.participants
-        .find((ele) => ele.participantId === participantId).stats;
+    .then(result => {
+      const {participantId} = result.participantIdentities
+        .find(element => element.player.summonerName === summonerName);
+      const {win} = result.participants
+        .find(element => element.participantId === participantId).stats;
       return win;
     })
     .catch();
 };
 
-exports.getMatchlist = async (accountId, qs) => {
+const getMatchlist = async (accountId, qs) => {
   const options = {
     uri: `https://euw1.api.riotgames.com/lol/match/v4/matchlists/by-account/${accountId}`,
     qs,
@@ -95,15 +96,15 @@ exports.getMatchlist = async (accountId, qs) => {
   };
 
   return rp(options)
-    .then((result) => result)
-    .catch((err) => {
+    .then(result => result)
+    .catch(error => {
       /* Don't escalate, because this case is handled in the searchResult */
-      if (err.statusCode === 404) return;
-      throw err;
+      if (error.statusCode === 404) {return;}
+      throw error;
     });
 };
 
-exports.getMatchTimeline = async (matchId) => {
+const getMatchTimeline = async matchId => {
   const options = {
     uri: `https://euw1.api.riotgames.com/lol/match/v4/timelines/by-match/${matchId}`,
     headers,
@@ -111,14 +112,12 @@ exports.getMatchTimeline = async (matchId) => {
   };
 
   return rp(options)
-    .then((result) => result)
+    .then(result => result)
     .catch();
 };
 
-
 /* Data Dragon API */
-
-exports.getChampionData = async (champion) => {
+const getChampionData = async champion => {
   const options = {
     uri: `http://ddragon.leagueoflegends.com/cdn/9.23.1/data/en_US/champion/${champion}.json`,
     headers,
@@ -128,7 +127,7 @@ exports.getChampionData = async (champion) => {
   return rp(options).catch();
 };
 
-exports.getChampions = async (championIds) => {
+const getChampions = async championIds => {
   const options = {
     uri: 'http://ddragon.leagueoflegends.com/cdn/9.23.1/data/en_US/champion.json',
     headers,
@@ -137,13 +136,13 @@ exports.getChampions = async (championIds) => {
 
   const champions = await rp(options).catch();
   if (championIds) {
-    return Object.values(champions.data).filter((ele) => championIds.includes(parseInt(ele.key, 10)));
+    return Object.values(champions.data).filter(element => championIds.includes(Number.parseInt(element.key, 10)));
   }
+
   return champions;
 };
 
-
-exports.idChampionNameMapping = async (mode) => {
+const idChampionNameMapping = async mode => {
   const options = {
     uri: 'http://ddragon.leagueoflegends.com/cdn/9.23.1/data/en_US/champion.json',
     headers,
@@ -153,16 +152,16 @@ exports.idChampionNameMapping = async (mode) => {
   const champions = await rp(options).catch();
   const idNameMapping = {};
   const idNameArray = [];
-  Object.values(champions.data).forEach((ele) => {
-    idNameMapping[ele.key] = ele.name;
-    idNameArray.push({ name: ele.name, id: ele.key });
-  });
+  for (const element of Object.values(champions.data)) {
+    idNameMapping[element.key] = element.name;
+    idNameArray.push({name: element.name, id: element.key});
+  }
 
-  if (mode === 'both') return { idNameArray, idNameMapping };
+  if (mode === 'both') {return {idNameArray, idNameMapping};}
   return mode === 'array' ? idNameArray : idNameMapping;
 };
 
-exports.idGameModeMapping = async (mode) => {
+const idGameModeMapping = async mode => {
   const options = {
     uri: 'http://static.developer.riotgames.com/docs/lol/queues.json',
     headers,
@@ -172,23 +171,24 @@ exports.idGameModeMapping = async (mode) => {
   const queues = await rp(options).catch();
 
   /* Return array, if specified by function parameter */
-  if (mode === 'array') return queues.filter((ele) => ele.notes == null);
+  if (mode === 'array') {return queues.filter(element => element.notes === null);}
 
   const idModeMapping = [];
-  queues.forEach((ele) => {
-    if (ele.queueId !== 0) {
-      if (ele.notes != null && ele.notes.toLowerCase().includes('deprecated')) {
-        return;
+  for (const element of queues) {
+    if (element.queueId !== 0) {
+      if (element.notes !== null && element.notes.toLowerCase().includes('deprecated')) {
+        continue;
       }
-      idModeMapping[ele.queueId] = ele.description.replace(/( games)/, '');
+
+      idModeMapping[element.queueId] = element.description.replace(/( games)/, '');
     }
-  });
+  }
 
   /* Normal return (map: key = id, value = queue name */
   return idModeMapping;
 };
 
-exports.seasonsMapping = async () => {
+const seasonsMapping = async () => {
   const options = {
     uri: 'http://static.developer.riotgames.com/docs/lol/seasons.json',
     headers,
@@ -200,7 +200,7 @@ exports.seasonsMapping = async () => {
 
 /* League API - todo: lots of stuff */
 
-exports.getLeagueEntries = async (encSummonerId) => {
+const getLeagueEntries = async encSummonerId => {
   const options = {
     uri: `https://euw1.api.riotgames.com/lol/league/v4/entries/by-summoner/${encSummonerId}`,
     headers,
@@ -209,3 +209,12 @@ exports.getLeagueEntries = async (encSummonerId) => {
 
   return rp(options).catch();
 };
+
+const api = {
+  getSummonerByName, getSummonerByPuuid, getSummonerById, getSummonerByAccount,
+  getMatch, getMatchResult, getMatchlist, getMatchTimeline,
+  getChampionData, getChampions,
+  idChampionNameMapping, idGameModeMapping, seasonsMapping, getLeagueEntries,
+};
+
+export default api;

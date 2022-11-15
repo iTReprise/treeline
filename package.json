@@ -4,6 +4,7 @@
   "engines": {
     "node": "^19.0"
   },
+  "type": "module",
   "private": true,
   "description": "You want to find out if your friends are still alive? Go check on them and find out when they played their last game of League/TFT. Because we all know, that even if someone disappears from all social media, their League addiction won't cease!",
   "scripts": {
@@ -20,20 +21,46 @@
   "author": "Florian Utku",
   "license": "MIT",
   "dependencies": {
-    "debug": "^4.1.1",
+    "debug": "^4.3.4",
+    "dotenv": "^16.0.3",
     "express": "^4.17.1",
     "http": "0.0.0",
-    "http-errors": "^1.7.3",
+    "http-errors": "^2.0.0",
     "jquery": "^3.5.0",
     "pug": "^3.0.1",
     "request": "^2.88.0",
     "request-promise": "^4.2.5"
   },
   "devDependencies": {
-    "eslint": "^6.6.0",
-    "eslint-config-airbnb-base": "^14.0.0",
-    "eslint-plugin-import": "^2.18.2",
     "nodemon": "^2.0.20",
-    "supports-color": "^7.1.0"
+    "supports-color": "^7.1.0",
+    "xo": "^0.52.4"
+  },
+  "xo": {
+    "space": true,
+    "rules": {
+      "n/file-extension-in-import": [
+        "off"
+      ],
+      "no-unused-expressions": [
+        "error",
+        {
+          "allowTernary": true
+        }
+      ],
+      "max-statements-per-line": [
+        "error",
+        {
+          "max": 2
+        }
+      ],
+      "brace-style": [
+        "error",
+        "1tbs",
+        {
+          "allowSingleLine": true
+        }
+      ]
+    }
   }
 }

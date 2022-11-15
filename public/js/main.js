@@ -1,14 +1,14 @@
 /* global $ */
 
 $(() => {
-  /* show loading icon when searching */
-  $('#summonerSearchForm').submit(() => {
+  /* Show loading icon when searching */
+  $('#summonerSearchForm').on(() => {
     $('#summonerSearchForm').hide();
     $('#fountainG').show();
   });
 
-  /* show loading icon when filtering */
-  $('#summonerSearchFilter').submit(() => {
+  /* Show loading icon when filtering */
+  $('#summonerSearchFilter').on(() => {
     $('#summonerSearchFilter').hide();
     $('#fountainG').show();
   });
